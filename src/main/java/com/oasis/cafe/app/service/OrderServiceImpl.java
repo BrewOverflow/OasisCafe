@@ -1,0 +1,64 @@
+package com.oasis.cafe.app.service;
+
+import java.time.LocalDate;
+import java.time.Month;
+
+import com.oasis.cafe.app.constant.CafeConstants;
+import com.oasis.cafe.app.dao.OrderDAO;
+import com.oasis.cafe.app.exception.DrinkNotAvailableException;
+import com.oasis.cafe.app.exception.DrinkNotFoundException;
+import com.oasis.cafe.app.exception.OrderNotFoundException;
+import com.oasis.cafe.app.model.Drink;
+import com.oasis.cafe.app.model.Order;
+import com.oasis.cafe.app.model.OrderItem;
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderServiceImpl implements OrderService {
+
+    private final OrderDAO orderDAO;
+    private final DrinkService drinkService;
+
+    public OrderServiceImpl(OrderDAO orderDAO, DrinkService drinkService) {
+        this.orderDAO = orderDAO;
+        this.drinkService = drinkService;
+    }
+
+    @Override
+    public Order addDrinkToOrder(Long orderId, Long drinkId) throws DrinkNotFoundException, DrinkNotAvailableException {
+
+        Order order = orderDAO.findById(orderId).orElseGet(() -> {
+            return orderDAO.save(new Order());
+        });
+
+        Drink drink = drinkService.findDrinkById(drinkId);
+        OrderItem item = new OrderItem(order, drinkId, drink.getPrice());
+        order.addItem(item);
+
+        return orderDAO.save(order);
+    }
+
+    @Override
+    public Order getOrder(Long orderId) throws DrinkNotFoundException, DrinkNotAvailableException {
+
+        Order order = orderDAO.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException("Drink with ID " + orderId + " is not found"));
+
+        double total = 0;
+        for (OrderItem item : order.getItems()) {
+            Drink drink = drinkService.findDrinkById(item.getDrinkId());
+            if (drink != null) {
+                total += applyDecemberDiscount(drink).getPrice();
+            }
+        }
+
+        return order;
+    }
+
+    private Drink applyDecemberDiscount(Drink d) {
+        if (LocalDate.now().getMonth() == Month.DECEMBER) {
+            d.setPrice(d.getPrice() * (1 - CafeConstants.DECEMBER_DISCOUNT));
+        }
+        return d;
+    }
+}
