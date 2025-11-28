@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "TBL_CAFE_DRINK")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Drink {
 
     @Id
