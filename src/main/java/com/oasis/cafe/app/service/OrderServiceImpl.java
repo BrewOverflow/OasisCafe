@@ -3,15 +3,13 @@ package com.oasis.cafe.app.service;
 import java.time.LocalDate;
 import java.time.Month;
 
+import org.springframework.stereotype.Service;
+
 import com.oasis.cafe.app.constant.CafeConstants;
-import com.oasis.cafe.app.dao.OrderDAO;
-import com.oasis.cafe.app.exception.DrinkNotAvailableException;
-import com.oasis.cafe.app.exception.DrinkNotFoundException;
 import com.oasis.cafe.app.exception.OrderNotFoundException;
 import com.oasis.cafe.app.model.Drink;
 import com.oasis.cafe.app.model.Order;
 import com.oasis.cafe.app.model.OrderItem;
-import org.springframework.stereotype.Service;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -25,7 +23,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order addDrinkToOrder(Long orderId, Long drinkId) throws DrinkNotFoundException, DrinkNotAvailableException {
+    public Order addDrinkToOrder(Long orderId, Long drinkId) {
 
         Order order = orderDAO.findById(orderId).orElseGet(() -> {
             return orderDAO.save(new Order());
@@ -39,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getOrder(Long orderId) throws DrinkNotFoundException, DrinkNotAvailableException {
+    public Order getOrder(Long orderId) {
 
         Order order = orderDAO.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Drink with ID " + orderId + " is not found"));
@@ -51,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
                 total += applyDecemberDiscount(drink).getPrice();
             }
         }
-
+        order.setTotalPrice(total);
         return order;
     }
 

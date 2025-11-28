@@ -2,12 +2,12 @@ package com.oasis.cafe.app.controller;
 
 import java.util.List;
 
-import com.oasis.cafe.app.model.Drink;
-import com.oasis.cafe.app.service.DrinkService;
-import org.springframework.web.bind.annotation.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
+
+import com.oasis.cafe.app.model.Drink;
+import com.oasis.cafe.app.service.DrinkService;
 
 @RestController
 @RequestMapping("/api/drinks")

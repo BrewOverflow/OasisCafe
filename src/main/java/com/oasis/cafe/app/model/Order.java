@@ -18,6 +18,8 @@ public class Order {
 
     private LocalDateTime orderDateTime;
 
+    private double totalPrice;
+
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     private List<OrderItem> items = new ArrayList<>();
 
@@ -32,6 +34,30 @@ public class Order {
     public String getOrderNumber() { return orderNumber; }
     public LocalDateTime getOrderDateTime() { return orderDateTime; }
     public List<OrderItem> getItems() { return items; }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public void setOrderDateTime(LocalDateTime orderDateTime) {
+        this.orderDateTime = orderDateTime;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
+    }
 
     public void addItem(OrderItem item) {
         this.items.add(item);

@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import com.oasis.cafe.app.constant.CafeConstants;
-import com.oasis.cafe.app.dao.DrinkDAO;
 import com.oasis.cafe.app.exception.DrinkNotAvailableException;
 import com.oasis.cafe.app.exception.DrinkNotFoundException;
 import com.oasis.cafe.app.model.Drink;
-import org.springframework.stereotype.Service;
 
 @Service
 public class DrinkServiceImpl implements DrinkService {
 
-    private final DrinkDAO drinkDAO;;
+    private final DrinkDAO drinkDAO;
 
     public DrinkServiceImpl(DrinkDAO drinkDAO) {
         this.drinkDAO = drinkDAO;

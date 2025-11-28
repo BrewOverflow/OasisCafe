@@ -15,8 +15,6 @@ public class Coffee extends Drink {
 
     private boolean hasMilk;
 
-    private static int orderSequence = 0;
-
     public Coffee() {
         super("", DrinkSize.MEDIUM, 0.0); // default constructor for JPA
     }
