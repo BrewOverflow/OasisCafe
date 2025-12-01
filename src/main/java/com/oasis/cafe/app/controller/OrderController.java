@@ -28,11 +28,11 @@ public class OrderController {
         return order;
     }
 
-    @GetMapping("/{orderId}")
-    public Order getOrder(@PathVariable Long orderId) {
+    @GetMapping("/{orderNumber}")
+    public Order getOrderByOrderNumber(@PathVariable String orderNumber) {
         Order order = new Order();
         try {
-            order = orderService.getOrder(orderId);
+            order = orderService.getOrderByOrderNumber(orderNumber);
         } catch (DrinkNotFoundException drinkNotFoundException) {
             System.out.println("Drink Not Found: " + drinkNotFoundException.getMessage());
         } catch (DrinkNotAvailableException drinkNotAvailableException) {

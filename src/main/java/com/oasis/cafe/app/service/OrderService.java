@@ -5,6 +5,6 @@ import com.oasis.cafe.app.model.Order;
 public interface OrderService {
 
     Order addDrinkToOrder(Long orderId, Long drinkId);
-    Order getOrder(Long orderId);
+    Order getOrderByOrderNumber(String orderNumber);
 
 }

@@ -15,10 +15,12 @@ import com.oasis.cafe.app.model.OrderItem;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderDAO orderDAO;
+    private final OrderItemDAO orderItemDAO;
     private final DrinkService drinkService;
 
-    public OrderServiceImpl(OrderDAO orderDAO, DrinkService drinkService) {
+    public OrderServiceImpl(OrderDAO orderDAO, OrderItemDAO orderItemDAO, DrinkService drinkService) {
         this.orderDAO = orderDAO;
+        this.orderItemDAO = orderItemDAO;
         this.drinkService = drinkService;
     }
 
@@ -30,17 +32,17 @@ public class OrderServiceImpl implements OrderService {
         });
 
         Drink drink = drinkService.findDrinkById(drinkId);
-        OrderItem item = new OrderItem(order, drinkId, drink.getPrice());
+        OrderItem item = orderItemDAO.save(new OrderItem(order, drinkId, drink.getPrice()));
         order.addItem(item);
 
         return orderDAO.save(order);
     }
 
     @Override
-    public Order getOrder(Long orderId) {
+    public Order getOrderByOrderNumber(String orderNumber) {
 
-        Order order = orderDAO.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException("Drink with ID " + orderId + " is not found"));
+        Order order = (Order) orderDAO.findOrdersByOrderNumber(orderNumber)
+                .orElseThrow(() -> new OrderNotFoundException("Drink with Order Number " + orderNumber + " is not found"));
 
         double total = 0;
         for (OrderItem item : order.getItems()) {

@@ -13,35 +13,54 @@ public class Drink {
 
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    private DrinkSize size;
-
     private double price;
 
-    private boolean available; // new attribute
+    @Enumerated(EnumType.STRING)
+    private DrinkType drinkType;
 
-    public Drink() {
-        this.available = true; // default available
-    }
+    private boolean available = true;
 
-    public Drink(String name, DrinkSize size, double price) {
+    public Drink() {}
+
+    public Drink(Long id, String name, double price, DrinkType drinkType, boolean available) {
+        this.id = id;
         this.name = name;
-        this.size = size;
         this.price = price;
-        this.available = true;
+        this.drinkType = drinkType;
+        this.available = available;
     }
 
     public Long getId() { return id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
 
-    public DrinkSize getSize() { return size; }
-    public void setSize(DrinkSize size) { this.size = size; }
+    public String getName() {
+        return name;
+    }
 
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public boolean isAvailable() { return available; }
-    public void setAvailable(boolean available) { this.available = available; }
+    public double getPrice() {
+        return price;
+    }
 
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public DrinkType getDrinkType() {
+        return drinkType;
+    }
+
+    public void setDrinkType(DrinkType drinkType) {
+        this.drinkType = drinkType;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
 }

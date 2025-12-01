@@ -23,11 +23,13 @@ public class Order {
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     private List<OrderItem> items = new ArrayList<>();
 
-    private static int orderSequence = 0;
-
     public Order() {
         this.orderNumber = generateOrderNumber();
         this.orderDateTime = LocalDateTime.now();
+    }
+
+    public Order(Long id) {
+        this.id = id;
     }
 
     public Long getId() { return id; }
@@ -64,7 +66,7 @@ public class Order {
     }
 
     private String generateOrderNumber() {
-        orderSequence ++;
-        return "ORDER-" + orderSequence;
+        LocalDateTime now = LocalDateTime.now();
+        return "ORDER-" + now.getYear() + "-" + now.getMonthValue() + "-" + now.getDayOfMonth();
     }
 }

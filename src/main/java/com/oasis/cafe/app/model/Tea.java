@@ -11,26 +11,34 @@ public class Tea extends Drink {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private TeaType teaType;
+    private LeafType leafType;
 
-    private boolean hasSugar;
+    private Integer steepMinutes;
 
-    public Tea() {
-        super("", DrinkSize.MEDIUM, 0.0); // default constructor for JPA
-    }
+    public Tea() {}
 
-    public Tea(String name, DrinkSize size, double price, TeaType teaType, boolean hasSugar) {
-        super(name, size, price);
-        this.teaType = teaType;
-        this.hasSugar = hasSugar;
+    public Tea(Long id, String name, double price, boolean available, Long id1, LeafType leafType, Integer steepMinutes) {
+        super(id, name, price, DrinkType.Tea, available);
+        this.id = id1;
+        this.leafType = leafType;
+        this.steepMinutes = steepMinutes;
     }
 
     public Long getId() { return id; }
 
-    public TeaType getTeaType() { return teaType; }
-    public void setTeaType(TeaType teaType) { this.teaType = teaType; }
+    public LeafType getLeafType() {
+        return leafType;
+    }
 
-    public boolean isHasSugar() { return hasSugar; }
-    public void setHasSugar(boolean hasSugar) { this.hasSugar = hasSugar; }
+    public void setLeafType(LeafType leafType) {
+        this.leafType = leafType;
+    }
 
+    public Integer getSteepMinutes() {
+        return steepMinutes;
+    }
+
+    public void setSteepMinutes(Integer steepMinutes) {
+        this.steepMinutes = steepMinutes;
+    }
 }

@@ -11,26 +11,35 @@ public class Coffee extends Drink {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private CoffeeType coffeeType;
+    private RoastLevel roastLevel; // e.g., Dark, Medium
 
-    private boolean hasMilk;
+    private Integer caffeineMg;
 
-    public Coffee() {
-        super("", DrinkSize.MEDIUM, 0.0); // default constructor for JPA
+    public Coffee(Long id, String name, double price, boolean available, Long id1, RoastLevel roastLevel, Integer caffeineMg) {
+        super(id, name, price, DrinkType.Coffee, available);
+        this.id = id1;
+        this.roastLevel = roastLevel;
+        this.caffeineMg = caffeineMg;
     }
 
-    public Coffee(String name, DrinkSize size, double price, CoffeeType coffeeType, boolean hasMilk) {
-        super(name, size, price);
-        this.coffeeType = coffeeType;
-        this.hasMilk = hasMilk;
-    }
+    public Coffee() {}
 
     public Long getId() { return id; }
 
-    public CoffeeType getCoffeeType() { return coffeeType; }
-    public void setCoffeeType(CoffeeType coffeeType) { this.coffeeType = coffeeType; }
+    public RoastLevel getRoastLevel() {
+        return roastLevel;
+    }
 
-    public boolean isHasMilk() { return hasMilk; }
-    public void setHasMilk(boolean hasMilk) { this.hasMilk = hasMilk; }
+    public void setRoastLevel(RoastLevel roastLevel) {
+        this.roastLevel = roastLevel;
+    }
+
+    public Integer getCaffeineMg() {
+        return caffeineMg;
+    }
+
+    public void setCaffeineMg(Integer caffeineMg) {
+        this.caffeineMg = caffeineMg;
+    }
 
 }
