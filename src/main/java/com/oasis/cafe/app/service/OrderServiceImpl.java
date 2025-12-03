@@ -6,6 +6,8 @@ import java.time.Month;
 import org.springframework.stereotype.Service;
 
 import com.oasis.cafe.app.constant.CafeConstants;
+import com.oasis.cafe.app.exception.DrinkNotAvailableException;
+import com.oasis.cafe.app.exception.DrinkNotFoundException;
 import com.oasis.cafe.app.exception.OrderNotFoundException;
 import com.oasis.cafe.app.model.Drink;
 import com.oasis.cafe.app.model.Order;
@@ -25,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order addDrinkToOrder(Long orderId, Long drinkId) {
+    public Order addDrinkToOrder(Long orderId, Long drinkId) throws DrinkNotAvailableException, DrinkNotFoundException {
 
         Order order = orderDAO.findById(orderId).orElseGet(() -> {
             return orderDAO.save(new Order());
@@ -39,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getOrderByOrderNumber(String orderNumber) {
+    public Order getOrderByOrderNumber(String orderNumber) throws DrinkNotAvailableException, DrinkNotFoundException {
 
         Order order = (Order) orderDAO.findOrdersByOrderNumber(orderNumber)
                 .orElseThrow(() -> new OrderNotFoundException("Drink with Order Number " + orderNumber + " is not found"));

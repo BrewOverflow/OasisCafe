@@ -1,11 +1,13 @@
 package com.oasis.cafe.app.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
+import com.oasis.cafe.app.exception.DrinkNotFoundException;
 import com.oasis.cafe.app.model.Drink;
 import com.oasis.cafe.app.service.DrinkService;
 
@@ -30,7 +32,12 @@ public class DrinkController {
     // Search drinks by keyword
     @GetMapping("/search")
     public List<Drink> searchDrinks(@RequestParam String keyword) {
-        return drinkService.searchDrinks(keyword);
+        try {
+            return drinkService.searchDrinks(keyword);
+        } catch (DrinkNotFoundException drinkNotFoundException) {
+            logger.error(drinkNotFoundException.toString());
+        }
+        return new ArrayList<>();
     }
 
     @GetMapping("/{id}")

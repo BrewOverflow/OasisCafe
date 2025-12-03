@@ -29,8 +29,8 @@ public class DrinkServiceImpl implements DrinkService {
     }
 
     @Override
-    public List<Drink> searchDrinks(String keyword) {
-        List<Drink> result = new ArrayList<Drink>();
+    public List<Drink> searchDrinks(String keyword) throws DrinkNotFoundException {
+        List<Drink> result = new ArrayList<>();
         for (Drink drink : drinkDAO.findAll()) {
             if (drink.getName().toLowerCase().contains(keyword.toLowerCase())) {
                 result.add(applyDecemberDiscount(drink));
@@ -42,7 +42,7 @@ public class DrinkServiceImpl implements DrinkService {
         return result;
     }
 
-    public Drink findDrinkById(Long id) {
+    public Drink findDrinkById(Long id) throws DrinkNotAvailableException, DrinkNotFoundException {
         Drink drink = drinkDAO.findById(id)
                 .orElseThrow(() -> new DrinkNotFoundException("Drink with ID " + id + " is not found"));
         if (!drink.isAvailable()) {
